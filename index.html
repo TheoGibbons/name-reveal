@@ -42,21 +42,21 @@
             border-radius: 50%;
         }
 
-        /*Only show the controls for mobile devices*/
+        /* Only show the controls for mobile devices */
         @media (pointer: fine) {
             #controls {
-                display: none !important;
+                /*display: none !important;*/
             }
         }
 
         #controls {
+            user-select: none;
             position: fixed;
             bottom: 30px;
             left: 30px;
-            /*width: 100%;*/
             width: calc(100% - 60px); /* Adjusted to account for the padding */
             display: flex;
-            gap: 50px
+            gap: 50px;
         }
 
         .control-button {

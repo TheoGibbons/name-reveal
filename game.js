@@ -5,16 +5,16 @@ canvas.width = 1000;
 canvas.height = window.innerHeight;
 
 function myImage(url) {
-    let f = new Image();
-    f.src = url;
-    return f;
+    let img = new Image();
+    img.src = url;
+    return img;
 }
 
 const player = {
     x: canvas.width / 2,
     y: canvas.height - 50,
-    width: 30,
-    height: 30,
+    width: 67,
+    height: 94,
     dx: 0,
     dy: 0,
     dxDir: 0,
@@ -24,9 +24,28 @@ const player = {
     color: 'red',
     jumping: false,
     images: {
-        0: myImage('dinosaur.png'),
-        1: myImage('dinosaur-left.png'),
-    }
+        stand: myImage('images/Player/p1_stand.png'),
+        walk: [
+            myImage('images/Player/walk/p1_walk01.png'),
+            myImage('images/Player/walk/p1_walk02.png'),
+            myImage('images/Player/walk/p1_walk03.png'),
+            myImage('images/Player/walk/p1_walk04.png'),
+            myImage('images/Player/walk/p1_walk05.png'),
+            myImage('images/Player/walk/p1_walk06.png'),
+            myImage('images/Player/walk/p1_walk07.png'),
+            myImage('images/Player/walk/p1_walk08.png'),
+            myImage('images/Player/walk/p1_walk09.png'),
+            myImage('images/Player/walk/p1_walk10.png'),
+            myImage('images/Player/walk/p1_walk11.png'),
+        ],
+        jump: {
+            right: myImage('images/Player/p1_jump_right.png'),
+            left: myImage('images/Player/p1_jump_left.png'),
+        }
+    },
+    currentFrame: 0,
+    frameCount: 0,
+    maxFrames: 10,
 };
 
 const keys = {
@@ -42,42 +61,41 @@ let lastTimestamp = 0;
 
 // Load texture images
 const textures = {
-    'white': myImage('texture1.png'),
-    'grey': myImage('texture2.png'),
-    // Add more textures as needed
-    // 'colorName': myImage('textureN.png')
+    'grassLeft': myImage('images/Platforms/grassHalfLeft.png'),
+    'grassMid': myImage('images/Platforms/grassHalfMid.png'),
+    'grassRight': myImage('images/Platforms/grassHalfRight.png'),
 };
 
 function createPlatforms() {
     platforms = [
-        {x: 0, y: 520, width: 1000, height: 10, color: 'white'},
-        {x: 820.258587888021, y: 343, width: 100, height: 10, color: 'grey'},
-        {x: 400.21154398989323, y: 143, width: 100, height: 10, color: 'grey'},
-        {x: 56.54696454713171, y: -57, width: 100, height: 10, color: 'grey'},
-        {x: 364.6596628815427, y: -257, width: 100, height: 10, color: 'grey'},
-        {x: 32.46046841753938, y: -457, width: 100, height: 10, color: 'grey'},
-        {x: 446.4374968992856, y: -657, width: 100, height: 10, color: 'grey'},
-        {x: 22.113466168296547, y: -857, width: 100, height: 10, color: 'grey'},
-        {x: 294.74925428527075, y: -1057, width: 100, height: 10, color: 'grey'},
-        {x: 721.9920440947534, y: -1257, width: 100, height: 10, color: 'grey'},
-        {x: 766.1013663964306, y: -1457, width: 100, height: 10, color: 'grey'},
-        {x: 630.7522046752704, y: -1657, width: 100, height: 10, color: 'grey'},
-        {x: 204.73859541261152, y: -1857, width: 100, height: 10, color: 'grey'},
-        {x: 29.277561533187303, y: -2057, width: 100, height: 10, color: 'grey'},
-        {x: 183.17418310881408, y: -2257, width: 100, height: 10, color: 'grey'},
-        {x: 365.2347233604346, y: -2457, width: 100, height: 10, color: 'grey'},
-        {x: 803.6435419172379, y: -2657, width: 100, height: 10, color: 'grey'},
-        {x: 559.9650024343357, y: -2857, width: 100, height: 10, color: 'grey'},
-        {x: 544.0464963011494, y: -3057, width: 100, height: 10, color: 'grey'},
-        {x: 810.9737156187504, y: -3257, width: 100, height: 10, color: 'grey'},
-        {x: 300.37726766681851, y: -3457, width: 100, height: 10, color: 'grey'},
-        {x: 810.003384869913, y: -3657, width: 100, height: 10, color: 'grey'},
-        {x: 433.06899547132537, y: -3857, width: 100, height: 10, color: 'grey'},
-        {x: 267.7471001252172, y: -4057, width: 100, height: 10, color: 'grey'},
-        {x: 127.78205491397236, y: -4257, width: 100, height: 10, color: 'grey'},
-        {x: 404.69535546568386, y: -4457, width: 100, height: 10, color: 'grey'},
-        {x: 404.69535546568386, y: -4657, width: 100, height: 10, color: 'grey'},
-        {x: 0, y: -4857, width: 1000, height: 10, color: 'red'}
+        {x: 0, y: 520, width: 1000, height: 10, type: 'grassMid'},
+        {x: 820, y: 343, width: 70, height: 70, type: 'grassMid'},
+        {x: 400, y: 143, width: 70, height: 70, type: 'grassMid'},
+        {x: 56, y: -57, width: 70, height: 70, type: 'grassMid'},
+        {x: 364, y: -257, width: 70, height: 70, type: 'grassMid'},
+        {x: 32, y: -457, width: 70, height: 70, type: 'grassMid'},
+        {x: 446, y: -657, width: 70, height: 70, type: 'grassMid'},
+        {x: 22, y: -857, width: 70, height: 70, type: 'grassMid'},
+        {x: 294, y: -1057, width: 70, height: 70, type: 'grassMid'},
+        {x: 721, y: -1257, width: 70, height: 70, type: 'grassMid'},
+        {x: 766, y: -1457, width: 70, height: 70, type: 'grassMid'},
+        {x: 630, y: -1657, width: 70, height: 70, type: 'grassMid'},
+        {x: 204, y: -1857, width: 70, height: 70, type: 'grassMid'},
+        {x: 29, y: -2057, width: 70, height: 70, type: 'grassMid'},
+        {x: 183, y: -2257, width: 70, height: 70, type: 'grassMid'},
+        {x: 365, y: -2457, width: 70, height: 70, type: 'grassMid'},
+        {x: 803, y: -2657, width: 70, height: 70, type: 'grassMid'},
+        {x: 559, y: -2857, width: 70, height: 70, type: 'grassMid'},
+        {x: 544, y: -3057, width: 70, height: 70, type: 'grassMid'},
+        {x: 810, y: -3257, width: 70, height: 70, type: 'grassMid'},
+        {x: 300, y: -3457, width: 70, height: 70, type: 'grassMid'},
+        {x: 810, y: -3657, width: 70, height: 70, type: 'grassMid'},
+        {x: 433, y: -3857, width: 70, height: 70, type: 'grassMid'},
+        {x: 267, y: -4057, width: 70, height: 70, type: 'grassMid'},
+        {x: 127, y: -4257, width: 70, height: 70, type: 'grassMid'},
+        {x: 404, y: -4457, width: 70, height: 70, type: 'grassMid'},
+        {x: 404, y: -4657, width: 70, height: 70, type: 'grassMid'},
+        {x: 0, y: -4857, width: 1000, height: 10, type: 'grassMid'}
     ];
 }
 
@@ -87,7 +105,6 @@ function jump() {
         player.jumping = true;
     }
 }
-
 
 let fireworks = [];
 let showFireworks = false;
@@ -107,18 +124,26 @@ function update(timestamp) {
                 fireworks.splice(index, 1);
             }
         });
-        //draw();
-        //requestAnimationFrame(update);
-        //return;
     }
 
     // Horizontal movement
     if (keys.right) {
         player.dx = player.speed;
+        player.frameCount++;
+        if (player.frameCount >= player.maxFrames) {
+            player.frameCount = 0;
+            player.currentFrame = (player.currentFrame + 1) % player.images.walk.length;
+        }
     } else if (keys.left) {
         player.dx = -player.speed;
+        player.frameCount++;
+        if (player.frameCount >= player.maxFrames) {
+            player.frameCount = 0;
+            player.currentFrame = (player.currentFrame + 1) % player.images.walk.length;
+        }
     } else {
         player.dx = 0;
+        player.currentFrame = 0;
     }
 
     player.x += player.dx * deltaTime;
@@ -176,8 +201,8 @@ function update(timestamp) {
         scrollOffset = 0;
     }
 
-    // Some screens a so big the player starts to far from the first platform to reach it
-    player.y = Math.min(player.y, 490);
+    // Some screens are so big the player starts too far from the first platform to reach it
+    player.y = Math.min(player.y, 520 - 94);
 
     draw();
     requestAnimationFrame(update);
@@ -188,24 +213,23 @@ function draw() {
     ctx.save();
     ctx.translate(0, scrollOffset);
 
-    // What direction is the player facing?
-    player.dxDir = player.dx < 0 ? 1 : (player.dx > 0 ? 0 : player.dxDir);
-
     // Draw player
-    if (player.images[player.dxDir].complete) {
-        ctx.drawImage(player.images[player.dxDir], player.x, player.y, player.width, player.height);
+    let playerImage;
+    if (player.jumping) {
+        playerImage = player.dx >= 0 ? player.images.jump.right : player.images.jump.left;
+    } else if (player.dx !== 0) {
+        playerImage = player.images.walk[player.currentFrame];
     } else {
-        player.images[player.dxDir].onload = () => {
-            ctx.drawImage(player.images[player.dxDir], player.x, player.y, player.width, player.height);
-        };
+        playerImage = player.images.stand;
     }
+    ctx.drawImage(playerImage, player.x, player.y, player.width, player.height);
 
     // Draw platforms with textures
     platforms.forEach(platform => {
-        if (textures[platform.color] && textures[platform.color].complete) {
-            ctx.drawImage(textures[platform.color], platform.x, platform.y, platform.width, platform.height);
+        if (textures[platform.type] && textures[platform.type].complete) {
+            ctx.drawImage(textures[platform.type], platform.x, platform.y, platform.width, platform.height);
         } else {
-            ctx.fillStyle = platform.color;
+            ctx.fillStyle = platform.type;
             ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
         }
     });
@@ -245,7 +269,6 @@ document.getElementById('leftButton').addEventListener('touchstart', () => keys.
 document.getElementById('leftButton').addEventListener('touchend', () => keys.left = false);
 document.getElementById('rightButton').addEventListener('touchstart', () => keys.right = true);
 document.getElementById('rightButton').addEventListener('touchend', () => keys.right = false);
-
 
 createPlatforms();
 requestAnimationFrame(update);
