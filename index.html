@@ -27,12 +27,42 @@
         .letter {
             visibility: hidden;
         }
+        #controls {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .control-button {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 24px;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 50%;
+        }
+
+        /*Only show the controls for mobile devices*/
+        @media (min-width: 768px) {
+            #controls {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
 <canvas id="gameCanvas" width="1000"></canvas>
 <div id="nameDisplay">
     <span class="letter" id="letter_26">&#65;</span><span class="letter" id="letter_21">&#114;</span><span class="letter" id="letter_5">&#108;</span><span class="letter" id="letter_2">&#111;</span><span class="letter" id="letter_16">&#32;</span><span class="letter" id="letter_11">&#77;</span><span class="letter" id="letter_6">&#105;</span><span class="letter" id="letter_17">&#99;</span><span class="letter" id="letter_14">&#104;</span><span class="letter" id="letter_1">&#101;</span><span class="letter" id="letter_4">&#108;</span><span class="letter" id="letter_19">&#32;</span><span class="letter" id="letter_24">&#67;</span><span class="letter" id="letter_18">&#108;</span><span class="letter" id="letter_7">&#105;</span><span class="letter" id="letter_15">&#102;</span><span class="letter" id="letter_8">&#116;</span><span class="letter" id="letter_25">&#111;</span><span class="letter" id="letter_20">&#110;</span><span class="letter" id="letter_13">&#32;</span><span class="letter" id="letter_3">&#71;</span><span class="letter" id="letter_23">&#105;</span><span class="letter" id="letter_9">&#98;</span><span class="letter" id="letter_10">&#98;</span><span class="letter" id="letter_12">&#111;</span><span class="letter" id="letter_0">&#110;</span><span class="letter" id="letter_22">&#115;</span>
+</div>
+<div id="controls">
+    <div class="control-button" id="leftButton">&#9664;</div>
+    <div class="control-button" id="jumpButton">&#9650;</div>
+    <div class="control-button" id="rightButton">&#9654;</div>
 </div>
 <script src="game.js"></script>
 <script src="fireworks.js"></script>

@@ -253,5 +253,13 @@ window.addEventListener('keyup', (e) => {
     }
 });
 
+// Mobile touch events
+document.getElementById('jumpButton').addEventListener('touchstart', jump);
+document.getElementById('leftButton').addEventListener('touchstart', () => keys.left = true);
+document.getElementById('leftButton').addEventListener('touchend', () => keys.left = false);
+document.getElementById('rightButton').addEventListener('touchstart', () => keys.right = true);
+document.getElementById('rightButton').addEventListener('touchend', () => keys.right = false);
+
+
 createPlatforms();
 requestAnimationFrame(update);
