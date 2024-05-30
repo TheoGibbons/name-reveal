@@ -176,8 +176,12 @@ function update(timestamp) {
     // Check if the player has reached the end platform
     if (player.y <= platforms[platforms.length - 1].y - 50) {
         showFireworks = true;
-        for (let i = 0; i < 10; i++) {
-            fireworks.push(new Firework(player.x + player.width / 2, player.y + player.height / 2));
+
+        // If the player is moving
+        if (player.dy !== 0) {
+            for (let i = 0; i < 10; i++) {
+                fireworks.push(new Firework(player.x + player.width / 2, player.y + player.height / 2));
+            }
         }
     }
 
