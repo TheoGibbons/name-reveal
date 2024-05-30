@@ -11,11 +11,24 @@ const player = {
     height: 30,
     dx: 0,
     dy: 0,
+    dxDir: 0,
     speed: 600, // pixels per second
     gravity: 2500, // pixels per second squared
     jumpPower: -1100, // pixels per second
     color: 'red',
-    jumping: false
+    jumping: false,
+    images: {
+        0: (function () {
+            let f = new Image();
+            f.src = 'dinosaur.png';
+            return f;
+        })(),
+        1: (function () {
+            let f = new Image();
+            f.src = 'dinosaur-left.png';
+            return f;
+        })()
+    }
 };
 
 const keys = {
@@ -144,9 +157,17 @@ function draw() {
     ctx.save();
     ctx.translate(0, scrollOffset);
 
+    // What direction is the player facing?
+    player.dxDir = player.dx < 0 ? 1 : (player.dx > 0 ? 0 : player.dxDir);
+
     // Draw player
-    ctx.fillStyle = player.color;
-    ctx.fillRect(player.x, player.y, player.width, player.height);
+    if (player.images[player.dxDir].complete) {
+        ctx.drawImage(player.images[player.dxDir], player.x, player.y, player.width, player.height);
+    } else {
+        player.images[player.dxDir].onload = () => {
+            ctx.drawImage(player.images[player.dxDir], player.x, player.y, player.width, player.height);
+        };
+    }
 
     // Draw platforms
     platforms.forEach(platform => {
