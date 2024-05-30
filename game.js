@@ -42,36 +42,56 @@ let platforms = [];
 const platformSpacing = 200;
 let lastTimestamp = 0;
 
+// Load texture images
+const textures = {
+    'white': (function () {
+        let img = new Image();
+        img.src = 'texture1.png';
+        return img;
+    })(),
+    'grey': (function () {
+        let img = new Image();
+        img.src = 'texture2.png';
+        return img;
+    })(),
+    // Add more textures as needed
+    // 'colorName': (function () {
+    //     let img = new Image();
+    //     img.src = 'textureN.png';
+    //     return img;
+    // })()
+};
+
 function createPlatforms() {
     platforms = [
-        {x: 0, y: 520, width: 1000, height: 10, color: '#FFF'}, // Random rainbow color
-        {x: 820.258587888021, y: 343, width: 100, height: 10, color: '#D3D3D3'}, // Level 1 - Light grey
-        {x: 400.21154398989323, y: 143, width: 100, height: 10, color: '#CCC'}, // Level 2 - Slightly darker grey
-        {x: 56.54696454713171, y: -57, width: 100, height: 10, color: '#BBB'}, // Level 3 - Darker grey
-        {x: 364.6596628815427, y: -257, width: 100, height: 10, color: '#AAA'}, // Level 4 - Dark grey
-        {x: 32.46046841753938, y: -457, width: 100, height: 10, color: '#999'}, // Level 5 - Slate blue
-        {x: 446.4374968992856, y: -657, width: 100, height: 10, color: '#888'}, // Level 6 - Slate blue
-        {x: 22.113466168296547, y: -857, width: 100, height: 10, color: '#777'}, // Level 7 - Slate blue
-        {x: 294.74925428527075, y: -1057, width: 100, height: 10, color: '#666'}, // Level 8 - Slate blue
-        {x: 721.9920440947534, y: -1257, width: 100, height: 10, color: '#555'}, // Level 9 - Slate blue
-        {x: 766.1013663964306, y: -1457, width: 100, height: 10, color: '#444'}, // Level 10 - Black
-        {x: 630.7522046752704, y: -1657, width: 100, height: 10, color: '#333'}, // Random rainbow color
-        {x: 204.73859541261152, y: -1857, width: 100, height: 10, color: '#222'}, // Random rainbow color
-        {x: 29.277561533187303, y: -2057, width: 100, height: 10, color: '#111'}, // Random rainbow color
-        {x: 183.17418310881408, y: -2257, width: 100, height: 10, color: '#000'}, // Random rainbow color
-        {x: 365.2347233604346, y: -2457, width: 100, height: 10, color: 'hsl(28deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 803.6435419172379, y: -2657, width: 100, height: 10, color: 'hsl(56deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 559.9650024343357, y: -2857, width: 100, height: 10, color: 'hsl(84deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 544.0464963011494, y: -3057, width: 100, height: 10, color: 'hsl(112deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 810.9737156187504, y: -3257, width: 100, height: 10, color: 'hsl(140deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 300.37726766681851, y: -3457, width: 100, height: 10, color: 'hsl(168deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 810.003384869913, y: -3657, width: 100, height: 10, color: 'hsl(175deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 433.06899547132537, y: -3857, width: 100, height: 10, color: 'hsl(224deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 267.7471001252172, y: -4057, width: 100, height: 10, color: 'hsl(252deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 127.78205491397236, y: -4257, width: 100, height: 10, color: 'hsl(280deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 404.69535546568386, y: -4457, width: 100, height: 10, color: 'hsl(308deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 404.69535546568386, y: -4657, width: 100, height: 10, color: 'hsl(336deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 0, y: -4857, width: 1000, height: 10, color: 'red'} // Random rainbow color
+        {x: 0, y: 520, width: 1000, height: 10, color: 'white'},
+        {x: 820.258587888021, y: 343, width: 100, height: 10, color: 'grey'},
+        {x: 400.21154398989323, y: 143, width: 100, height: 10, color: 'grey'},
+        {x: 56.54696454713171, y: -57, width: 100, height: 10, color: 'grey'},
+        {x: 364.6596628815427, y: -257, width: 100, height: 10, color: 'grey'},
+        {x: 32.46046841753938, y: -457, width: 100, height: 10, color: 'grey'},
+        {x: 446.4374968992856, y: -657, width: 100, height: 10, color: 'grey'},
+        {x: 22.113466168296547, y: -857, width: 100, height: 10, color: 'grey'},
+        {x: 294.74925428527075, y: -1057, width: 100, height: 10, color: 'grey'},
+        {x: 721.9920440947534, y: -1257, width: 100, height: 10, color: 'grey'},
+        {x: 766.1013663964306, y: -1457, width: 100, height: 10, color: 'grey'},
+        {x: 630.7522046752704, y: -1657, width: 100, height: 10, color: 'grey'},
+        {x: 204.73859541261152, y: -1857, width: 100, height: 10, color: 'grey'},
+        {x: 29.277561533187303, y: -2057, width: 100, height: 10, color: 'grey'},
+        {x: 183.17418310881408, y: -2257, width: 100, height: 10, color: 'grey'},
+        {x: 365.2347233604346, y: -2457, width: 100, height: 10, color: 'grey'},
+        {x: 803.6435419172379, y: -2657, width: 100, height: 10, color: 'grey'},
+        {x: 559.9650024343357, y: -2857, width: 100, height: 10, color: 'grey'},
+        {x: 544.0464963011494, y: -3057, width: 100, height: 10, color: 'grey'},
+        {x: 810.9737156187504, y: -3257, width: 100, height: 10, color: 'grey'},
+        {x: 300.37726766681851, y: -3457, width: 100, height: 10, color: 'grey'},
+        {x: 810.003384869913, y: -3657, width: 100, height: 10, color: 'grey'},
+        {x: 433.06899547132537, y: -3857, width: 100, height: 10, color: 'grey'},
+        {x: 267.7471001252172, y: -4057, width: 100, height: 10, color: 'grey'},
+        {x: 127.78205491397236, y: -4257, width: 100, height: 10, color: 'grey'},
+        {x: 404.69535546568386, y: -4457, width: 100, height: 10, color: 'grey'},
+        {x: 404.69535546568386, y: -4657, width: 100, height: 10, color: 'grey'},
+        {x: 0, y: -4857, width: 1000, height: 10, color: 'red'}
     ];
 }
 
@@ -194,10 +214,14 @@ function draw() {
         };
     }
 
-    // Draw platforms
+    // Draw platforms with textures
     platforms.forEach(platform => {
-        ctx.fillStyle = platform.color;
-        ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+        if (textures[platform.color] && textures[platform.color].complete) {
+            ctx.drawImage(textures[platform.color], platform.x, platform.y, platform.width, platform.height);
+        } else {
+            ctx.fillStyle = platform.color;
+            ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+        }
     });
 
     // Draw fireworks
@@ -231,4 +255,3 @@ window.addEventListener('keyup', (e) => {
 
 createPlatforms();
 requestAnimationFrame(update);
-
