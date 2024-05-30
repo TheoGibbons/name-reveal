@@ -82,12 +82,29 @@ function jump() {
     }
 }
 
+
+let fireworks = [];
+let showFireworks = false;
+
 function update(timestamp) {
     if (!lastTimestamp) {
         lastTimestamp = timestamp;
     }
     const deltaTime = (timestamp - lastTimestamp) / 1000; // Convert time to seconds
     lastTimestamp = timestamp;
+
+    // If the game has ended, update and draw fireworks only
+    if (showFireworks) {
+        fireworks.forEach((firework, index) => {
+            firework.update();
+            if (firework.isFinished()) {
+                fireworks.splice(index, 1);
+            }
+        });
+        //draw();
+        //requestAnimationFrame(update);
+        //return;
+    }
 
     // Horizontal movement
     if (keys.right) {
@@ -124,6 +141,14 @@ function update(timestamp) {
             player.jumping = false;
         }
     });
+
+    // Check if the player has reached the end platform
+    if (player.y <= platforms[platforms.length - 1].y - 50) {
+        showFireworks = true;
+        for (let i = 0; i < 50; i++) {
+            fireworks.push(new Firework(player.x + player.width / 2, player.y + player.height / 2));
+        }
+    }
 
     // Update the name display
     let numBerOfLettersToDisplay = Math.max(0, Math.floor((player.y - 516) / -platformSpacing));
@@ -175,6 +200,11 @@ function draw() {
         ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
     });
 
+    // Draw fireworks
+    fireworks.forEach(firework => {
+        firework.draw(ctx);
+    });
+
     ctx.restore();
 }
 
@@ -201,3 +231,4 @@ window.addEventListener('keyup', (e) => {
 
 createPlatforms();
 requestAnimationFrame(update);
+
