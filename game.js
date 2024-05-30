@@ -1,6 +1,5 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const nameDisplay = document.getElementById('nameDisplay');
 
 canvas.width = 1000;
 canvas.height = window.innerHeight;
@@ -12,9 +11,9 @@ const player = {
     height: 30,
     dx: 0,
     dy: 0,
-    speed: 5,
-    gravity: 0.2,
-    jumpPower: -10,
+    speed: 600, // pixels per second
+    gravity: 2500, // pixels per second squared
+    jumpPower: -1100, // pixels per second
     color: 'red',
     jumping: false
 };
@@ -25,15 +24,10 @@ const keys = {
     up: false
 };
 
-const levels = ["M", "y", " ", "T", "e", "x", "t"];
-let currentLevel = 0;
 let scrollOffset = 0;
-let lettersRevealed = '';
-
 let platforms = [];
-const platformWidth = 100;
-const platformHeight = 10;
 const platformSpacing = 200;
+let lastTimestamp = 0;
 
 function createPlatforms() {
     platforms = [
@@ -52,34 +46,20 @@ function createPlatforms() {
         {x: 204.73859541261152, y: -1857, width: 100, height: 10, color: '#222'}, // Random rainbow color
         {x: 29.277561533187303, y: -2057, width: 100, height: 10, color: '#111'}, // Random rainbow color
         {x: 183.17418310881408, y: -2257, width: 100, height: 10, color: '#000'}, // Random rainbow color
-        {x: 365.2347233604346, y: -2457, width: 100, height: 10, color:  'hsl(28deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 803.6435419172379, y: -2657, width: 100, height: 10, color:  'hsl(56deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 559.9650024343357, y: -2857, width: 100, height: 10, color:  'hsl(84deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 544.0464963011494, y: -3057, width: 100, height: 10, color:  'hsl(112deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 810.9737156187504, y: -3257, width: 100, height: 10, color:  'hsl(140deg 71.43% 72.55%)'}, // Random rainbow color
+        {x: 365.2347233604346, y: -2457, width: 100, height: 10, color: 'hsl(28deg 71.43% 72.55%)'}, // Random rainbow color
+        {x: 803.6435419172379, y: -2657, width: 100, height: 10, color: 'hsl(56deg 71.43% 72.55%)'}, // Random rainbow color
+        {x: 559.9650024343357, y: -2857, width: 100, height: 10, color: 'hsl(84deg 71.43% 72.55%)'}, // Random rainbow color
+        {x: 544.0464963011494, y: -3057, width: 100, height: 10, color: 'hsl(112deg 71.43% 72.55%)'}, // Random rainbow color
+        {x: 810.9737156187504, y: -3257, width: 100, height: 10, color: 'hsl(140deg 71.43% 72.55%)'}, // Random rainbow color
         {x: 300.37726766681851, y: -3457, width: 100, height: 10, color: 'hsl(168deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 810.003384869913, y: -3657, width: 100, height: 10, color:   'hsl(175deg 71.43% 72.55%)'}, // Random rainbow color
+        {x: 810.003384869913, y: -3657, width: 100, height: 10, color: 'hsl(175deg 71.43% 72.55%)'}, // Random rainbow color
         {x: 433.06899547132537, y: -3857, width: 100, height: 10, color: 'hsl(224deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 267.7471001252172, y: -4057, width: 100, height: 10, color:  'hsl(252deg 71.43% 72.55%)'}, // Random rainbow color
+        {x: 267.7471001252172, y: -4057, width: 100, height: 10, color: 'hsl(252deg 71.43% 72.55%)'}, // Random rainbow color
         {x: 127.78205491397236, y: -4257, width: 100, height: 10, color: 'hsl(280deg 71.43% 72.55%)'}, // Random rainbow color
         {x: 404.69535546568386, y: -4457, width: 100, height: 10, color: 'hsl(308deg 71.43% 72.55%)'}, // Random rainbow color
         {x: 404.69535546568386, y: -4657, width: 100, height: 10, color: 'hsl(336deg 71.43% 72.55%)'}, // Random rainbow color
         {x: 0, y: -4857, width: 1000, height: 10, color: 'red'} // Random rainbow color
     ];
-    // for (let i = 0; i < 27; i++) {
-    //
-    //     let platform = {
-    //         x: Math.random() * (canvas.width - platformWidth),
-    //         y: canvas.height - (i * platformSpacing),
-    //         width: platformWidth,
-    //         height: platformHeight,
-    //         color: 'green'
-    //     };
-    //
-    //     console.log(platform)
-    //
-    //     platforms.push(platform);
-    // }
 }
 
 function jump() {
@@ -89,7 +69,13 @@ function jump() {
     }
 }
 
-function update() {
+function update(timestamp) {
+    if (!lastTimestamp) {
+        lastTimestamp = timestamp;
+    }
+    const deltaTime = (timestamp - lastTimestamp) / 1000; // Convert time to seconds
+    lastTimestamp = timestamp;
+
     // Horizontal movement
     if (keys.right) {
         player.dx = player.speed;
@@ -99,7 +85,7 @@ function update() {
         player.dx = 0;
     }
 
-    player.x += player.dx;
+    player.x += player.dx * deltaTime;
 
     // Prevent player from going out of bounds horizontally
     if (player.x < 0) {
@@ -109,8 +95,8 @@ function update() {
     }
 
     // Vertical movement and gravity
-    player.dy += player.gravity;
-    player.y += player.dy;
+    player.dy += player.gravity * deltaTime;
+    player.y += player.dy * deltaTime;
 
     // Platform collision detection
     platforms.forEach(platform => {
@@ -118,24 +104,16 @@ function update() {
             player.x < platform.x + platform.width &&
             player.x + player.width > platform.x &&
             player.y + player.height < platform.y + platform.height &&
-            player.y + player.height + player.dy > platform.y
+            player.y + player.height + player.dy * deltaTime > platform.y
         ) {
             player.y = platform.y - player.height;
             player.dy = 0;
             player.jumping = false;
-
-            // if (currentLevel < levels.length) {
-            //     lettersRevealed += levels[currentLevel];
-            //     currentLevel++;
-            //     nameDisplay.innerText = lettersRevealed;
-            // }
-
         }
     });
 
     // Update the name display
-    let numBerOfLettersToDisplay = Math.max(0, Math.floor((player.y - 516) / -platformSpacing))
-    //nameDisplay.innerText = levels.slice(0, numBerOfLettersToDisplay).join('');
+    let numBerOfLettersToDisplay = Math.max(0, Math.floor((player.y - 516) / -platformSpacing));
     for (let i = 0; i < document.getElementsByClassName('letter').length; i++) {
         document.getElementById('letter_' + i).style.visibility = i < numBerOfLettersToDisplay ? 'visible' : 'hidden';
     }
@@ -189,9 +167,6 @@ window.addEventListener('keydown', (e) => {
     if (e.code === 'ArrowLeft') {
         keys.left = true;
     }
-    if (e.code === 'Minus' && e.shiftKey) {
-        player.dy = Math.min(-10, player.dy + 1);
-    }
 });
 
 window.addEventListener('keyup', (e) => {
@@ -204,4 +179,4 @@ window.addEventListener('keyup', (e) => {
 });
 
 createPlatforms();
-update();
+requestAnimationFrame(update);
