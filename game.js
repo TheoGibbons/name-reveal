@@ -25,7 +25,7 @@ const keys = {
     up: false
 };
 
-const levels = ['A', 'r', 'l', 'o', ' ', 'M', 'i', 'c', 'h', 'e', 'l', ' ', 'C', 'l', 'i', 'f', 't', 'o', 'n', ' ', 'G', 'i', 'b', 'b', 'o', 'n', 's'];
+const levels = ["M", "y", " ", "T", "e", "x", "t"];
 let currentLevel = 0;
 let scrollOffset = 0;
 let lettersRevealed = '';
@@ -135,7 +135,10 @@ function update() {
 
     // Update the name display
     let numBerOfLettersToDisplay = Math.max(0, Math.floor((player.y - 516) / -platformSpacing))
-    nameDisplay.innerText = levels.slice(0, numBerOfLettersToDisplay).join('');
+    //nameDisplay.innerText = levels.slice(0, numBerOfLettersToDisplay).join('');
+    for (let i = 0; i < document.getElementsByClassName('letter').length; i++) {
+        document.getElementById('letter_' + i).style.visibility = i < numBerOfLettersToDisplay ? 'visible' : 'hidden';
+    }
 
     // Prevent player from falling below the canvas
     if (player.y + player.height > canvas.height) {
