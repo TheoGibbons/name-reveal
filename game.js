@@ -37,6 +37,7 @@ const platformSpacing = 200;
 
 function createPlatforms() {
     platforms = [
+        {x: 0, y: 520, width: 1000, height: 10, color: '#FFF'}, // Random rainbow color
         {x: 820.258587888021, y: 343, width: 100, height: 10, color: '#D3D3D3'}, // Level 1 - Light grey
         {x: 400.21154398989323, y: 143, width: 100, height: 10, color: '#CCC'}, // Level 2 - Slightly darker grey
         {x: 56.54696454713171, y: -57, width: 100, height: 10, color: '#BBB'}, // Level 3 - Darker grey
@@ -57,7 +58,7 @@ function createPlatforms() {
         {x: 544.0464963011494, y: -3057, width: 100, height: 10, color:  'hsl(112deg 71.43% 72.55%)'}, // Random rainbow color
         {x: 810.9737156187504, y: -3257, width: 100, height: 10, color:  'hsl(140deg 71.43% 72.55%)'}, // Random rainbow color
         {x: 300.37726766681851, y: -3457, width: 100, height: 10, color: 'hsl(168deg 71.43% 72.55%)'}, // Random rainbow color
-        {x: 810.003384869913, y: -3657, width: 100, height: 10, color:   'hsl(196deg 71.43% 72.55%)'}, // Random rainbow color
+        {x: 810.003384869913, y: -3657, width: 100, height: 10, color:   'hsl(175deg 71.43% 72.55%)'}, // Random rainbow color
         {x: 433.06899547132537, y: -3857, width: 100, height: 10, color: 'hsl(224deg 71.43% 72.55%)'}, // Random rainbow color
         {x: 267.7471001252172, y: -4057, width: 100, height: 10, color:  'hsl(252deg 71.43% 72.55%)'}, // Random rainbow color
         {x: 127.78205491397236, y: -4257, width: 100, height: 10, color: 'hsl(280deg 71.43% 72.55%)'}, // Random rainbow color
