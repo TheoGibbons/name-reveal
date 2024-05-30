@@ -270,5 +270,11 @@ document.getElementById('leftButton').addEventListener('touchend', () => keys.le
 document.getElementById('rightButton').addEventListener('touchstart', () => keys.right = true);
 document.getElementById('rightButton').addEventListener('touchend', () => keys.right = false);
 
+document.getElementById('jumpButton').addEventListener('click', jump);
+document.getElementById('leftButton').addEventListener('mousedown', () => keys.left = true);
+document.getElementById('leftButton').addEventListener('mouseup', () => keys.left = false);
+document.getElementById('rightButton').addEventListener('mousedown', () => keys.right = true);
+document.getElementById('rightButton').addEventListener('mouseup', () => keys.right = false);
+
 createPlatforms();
 requestAnimationFrame(update);
