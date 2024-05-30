@@ -4,6 +4,12 @@ const ctx = canvas.getContext('2d');
 canvas.width = 1000;
 canvas.height = window.innerHeight;
 
+function myImage(url) {
+    let f = new Image();
+    f.src = url;
+    return f;
+}
+
 const player = {
     x: canvas.width / 2,
     y: canvas.height - 50,
@@ -18,16 +24,8 @@ const player = {
     color: 'red',
     jumping: false,
     images: {
-        0: (function () {
-            let f = new Image();
-            f.src = 'dinosaur.png';
-            return f;
-        })(),
-        1: (function () {
-            let f = new Image();
-            f.src = 'dinosaur-left.png';
-            return f;
-        })()
+        0: myImage('dinosaur.png'),
+        1: myImage('dinosaur-left.png'),
     }
 };
 
@@ -44,22 +42,10 @@ let lastTimestamp = 0;
 
 // Load texture images
 const textures = {
-    'white': (function () {
-        let img = new Image();
-        img.src = 'texture1.png';
-        return img;
-    })(),
-    'grey': (function () {
-        let img = new Image();
-        img.src = 'texture2.png';
-        return img;
-    })(),
+    'white': myImage('texture1.png'),
+    'grey': myImage('texture2.png'),
     // Add more textures as needed
-    // 'colorName': (function () {
-    //     let img = new Image();
-    //     img.src = 'textureN.png';
-    //     return img;
-    // })()
+    // 'colorName': myImage('textureN.png')
 };
 
 function createPlatforms() {
