@@ -23,7 +23,7 @@
 
         #nameDisplay {
             position: fixed;
-            bottom: 20px;
+            top: 20px;
             width: 100%;
             text-align: center;
             font-size: 24px;
@@ -32,6 +32,10 @@
 
         .letter {
             visibility: hidden;
+        }
+
+        .control-button svg {
+            width: 50%;
         }
 
         .control-button {
@@ -43,12 +47,30 @@
             text-align: center;
             line-height: 160px;
             border-radius: 50%;
+            fill: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #leftButton, #rightButton {
+            width: 250px;
+            height: 250px;
+        }
+
+        #jumpButton {
+            align-self: end;
         }
 
         /* Only show the controls for mobile devices */
         @media (pointer: fine) {
             #controls {
-                display: none !important;
+                /*display: none !important;*/
+            }
+        }
+        @media (pointer: coarse) {
+            #nameDisplay {
+                font-size: 32px;
             }
         }
 
@@ -109,9 +131,9 @@
         class="letter" id="letter_22">&#115;</span>
 </div>
 <div id="controls">
-    <div class="control-button" id="leftButton">&#9664;</div>
-    <div class="control-button" id="rightButton">&#9654;</div>
-    <div class="control-button" id="jumpButton">&#9650;</div>
+    <div class="control-button" id="leftButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></svg></div>
+    <div class="control-button" id="rightButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"/></svg></div>
+    <div class="control-button" id="jumpButton"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"/></svg></div>
 </div>
 <script src="game.js"></script>
 <script src="fireworks.js"></script>
