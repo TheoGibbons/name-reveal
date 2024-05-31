@@ -69,33 +69,33 @@ const textures = {
 function createPlatforms() {
     platforms = [
         {x: 0, y: 520, width: 1000, height: 10, type: 'grassMid'},
-        {x: 820, y: 343, width: 70, height: 70, type: 'grassMid'},
-        {x: 400, y: 143, width: 70, height: 70, type: 'grassMid'},
-        {x: 56, y: -57, width: 70, height: 70, type: 'grassMid'},
-        {x: 364, y: -257, width: 70, height: 70, type: 'grassMid'},
-        {x: 32, y: -457, width: 70, height: 70, type: 'grassMid'},
-        {x: 446, y: -657, width: 70, height: 70, type: 'grassMid'},
-        {x: 22, y: -857, width: 70, height: 70, type: 'grassMid'},
-        {x: 294, y: -1057, width: 70, height: 70, type: 'grassMid'},
-        {x: 721, y: -1257, width: 70, height: 70, type: 'grassMid'},
-        {x: 766, y: -1457, width: 70, height: 70, type: 'grassMid'},
-        {x: 630, y: -1657, width: 70, height: 70, type: 'grassMid'},
-        {x: 204, y: -1857, width: 70, height: 70, type: 'grassMid'},
-        {x: 29, y: -2057, width: 70, height: 70, type: 'grassMid'},
-        {x: 183, y: -2257, width: 70, height: 70, type: 'grassMid'},
-        {x: 365, y: -2457, width: 70, height: 70, type: 'grassMid'},
-        {x: 803, y: -2657, width: 70, height: 70, type: 'grassMid'},
-        {x: 559, y: -2857, width: 70, height: 70, type: 'grassMid'},
-        {x: 544, y: -3057, width: 70, height: 70, type: 'grassMid'},
-        {x: 810, y: -3257, width: 70, height: 70, type: 'grassMid'},
-        {x: 300, y: -3457, width: 70, height: 70, type: 'grassMid'},
-        {x: 810, y: -3657, width: 70, height: 70, type: 'grassMid'},
-        {x: 433, y: -3857, width: 70, height: 70, type: 'grassMid'},
-        {x: 267, y: -4057, width: 70, height: 70, type: 'grassMid'},
-        {x: 127, y: -4257, width: 70, height: 70, type: 'grassMid'},
-        {x: 404, y: -4457, width: 70, height: 70, type: 'grassMid'},
-        {x: 404, y: -4657, width: 70, height: 70, type: 'grassMid'},
-        {x: 0, y: -4857, width: 1000, height: 10, type: 'grassMid'}
+        {x: 820, y: 343, width: 70, height: 40, type: 'grassMid'},
+        {x: 400, y: 143, width: 70, height: 40, type: 'grassMid'},
+        {x: 56, y: -57, width: 70, height: 40, type: 'grassMid'},
+        {x: 364, y: -257, width: 70, height: 40, type: 'grassMid'},
+        {x: 32, y: -457, width: 70, height: 40, type: 'grassMid'},
+        {x: 446, y: -657, width: 70, height: 40, type: 'grassMid'},
+        {x: 22, y: -857, width: 70, height: 40, type: 'grassMid'},
+        {x: 294, y: -1057, width: 70, height: 40, type: 'grassMid'},
+        {x: 721, y: -1257, width: 70, height: 40, type: 'grassMid'},
+        {x: 766, y: -1457, width: 70, height: 40, type: 'grassMid'},
+        {x: 630, y: -1657, width: 70, height: 40, type: 'grassMid'},
+        {x: 204, y: -1857, width: 70, height: 40, type: 'grassMid'},
+        {x: 29, y: -2057, width: 70, height: 40, type: 'grassMid'},
+        {x: 183, y: -2257, width: 70, height: 40, type: 'grassMid'},
+        {x: 365, y: -2457, width: 70, height: 40, type: 'grassMid'},
+        {x: 803, y: -2657, width: 70, height: 40, type: 'grassMid'},
+        {x: 559, y: -2857, width: 70, height: 40, type: 'grassMid'},
+        {x: 544, y: -3057, width: 70, height: 40, type: 'grassMid'},
+        {x: 810, y: -3257, width: 70, height: 40, type: 'grassMid'},
+        {x: 300, y: -3457, width: 70, height: 40, type: 'grassMid'},
+        {x: 810, y: -3657, width: 70, height: 40, type: 'grassMid'},
+        {x: 433, y: -3857, width: 70, height: 40, type: 'grassMid'},
+        {x: 267, y: -4057, width: 70, height: 40, type: 'grassMid'},
+        {x: 127, y: -4257, width: 70, height: 40, type: 'grassMid'},
+        {x: 404, y: -4457, width: 70, height: 40, type: 'grassMid'},
+        {x: 404, y: -4657, width: 70, height: 40, type: 'grassMid'},
+        {x: 0, y: -4857, width: 1000, height: 10, type: 'grassMid', headBonk: false},
     ];
 }
 
@@ -116,7 +116,7 @@ function update(timestamp) {
     const deltaTime = (timestamp - lastTimestamp) / 1000; // Convert time to seconds
     lastTimestamp = timestamp;
 
-    // If the game has ended, update and draw fireworks only
+    // If the game has ended, update and draw fireworks
     if (showFireworks) {
         fireworks.forEach((firework, index) => {
             firework.update();
@@ -125,6 +125,9 @@ function update(timestamp) {
             }
         });
     }
+
+    const oldPlayerX = player.x;
+    const oldPlayerY = player.y;
 
     // Horizontal movement
     if (keys.right) {
@@ -161,16 +164,54 @@ function update(timestamp) {
 
     // Platform collision detection
     platforms.forEach(platform => {
+
+        // Check if the player is standing on a platform
         if (player.dy > 0 &&
             player.x < platform.x + platform.width &&
             player.x + player.width > platform.x &&
-            player.y + player.height < platform.y + platform.height &&
-            player.y + player.height + player.dy * deltaTime > platform.y
+            oldPlayerY + player.height <= platform.y &&
+            player.y + player.height > platform.y
         ) {
             player.y = platform.y - player.height;
             player.dy = 0;
             player.jumping = false;
         }
+
+        // Check for head bonk
+        if (platform.headBonk !== false) {
+            if (player.dy < 0 &&
+                player.x < platform.x + platform.width &&
+                player.x + player.width > platform.x &&
+                oldPlayerY >= platform.y + platform.height &&
+                player.y < platform.y + platform.height
+            ) {
+                player.dy = 0;
+                player.y = platform.y + platform.height;
+            }
+        }
+
+        // Check for left side collision
+        if (player.dx > 0 &&
+            player.y < platform.y + platform.height &&
+            player.y + player.height > platform.y &&
+            oldPlayerX + player.width <= platform.x &&
+            player.x + player.width > platform.x
+        ) {
+            player.dx = 0;
+            player.x = platform.x - player.width;
+        }
+
+        // Check for right side collision
+        if (player.dx < 0 &&
+            player.y < platform.y + platform.height &&
+            player.y + player.height > platform.y &&
+            oldPlayerX >= platform.x + platform.width &&
+            player.x < platform.x + platform.width
+        ) {
+            player.dx = 0;
+            player.x = platform.x + platform.width;
+        }
+
     });
 
     // Check if the player has reached the end platform
